@@ -218,9 +218,10 @@ public class BarChart extends javax.swing.JPanel implements DatasetChangeListene
         setDomainAxisVisible(true);
         this.jPanel1.add(panel);
         this.chart.getCategoryPlot().getDomainAxis().setCategoryLabelPositions(CategoryLabelPositions.DOWN_45);
-        
+
     }
-    public void addListener(ChartMouseListener listener){
+
+    public void addListener(ChartMouseListener listener) {
         this.panel.addChartMouseListener(listener);
         this.chart.fireChartChanged();
     }

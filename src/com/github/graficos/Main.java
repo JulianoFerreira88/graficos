@@ -1,6 +1,6 @@
 package com.github.graficos;
 
-import com.github.graficos.views.MainView;
+import com.github.graficos.views.MainView1;
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Connection;
@@ -21,9 +21,9 @@ public class Main {
                     p.getProperty("pass"));
             File f = new File("C:/sql");
             File[] files = f.listFiles();
-            MainView view = new MainView(con, files);
+            MainView1 view = new MainView1(con, files);
             view.setVisible(true);
-            view.execute(3000);
+           
 
         } catch (Exception e) {
             System.err.println(e);

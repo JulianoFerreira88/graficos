@@ -1,11 +1,13 @@
 package com.github.graficos.views;
 
 import com.github.graficos.utils.FileToString;
+import java.awt.CardLayout;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.swing.JPanel;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
 import org.jfree.data.jdbc.JDBCCategoryDataset;
@@ -101,4 +103,11 @@ public class MainView extends javax.swing.JFrame implements ChartMouseListener {
 
     }
 
+    public JPanel[] getPanels() {
+        JPanel[] panels = new JPanel[files.length];
+        for (int i = 0; i < panels.length; i++) {
+            JPanel panel = new JPanel(new CardLayout());
+        }
+        return panels;
+    }
 }
