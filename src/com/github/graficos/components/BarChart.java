@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.sql.SQLException;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
@@ -217,7 +218,11 @@ public class BarChart extends javax.swing.JPanel implements DatasetChangeListene
         setDomainAxisVisible(true);
         this.jPanel1.add(panel);
         this.chart.getCategoryPlot().getDomainAxis().setCategoryLabelPositions(CategoryLabelPositions.DOWN_45);
-
+        
+    }
+    public void addListener(ChartMouseListener listener){
+        this.panel.addChartMouseListener(listener);
+        this.chart.fireChartChanged();
     }
 
 }

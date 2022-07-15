@@ -6,48 +6,53 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
+import org.jfree.chart.ChartMouseEvent;
+import org.jfree.chart.ChartMouseListener;
 import org.jfree.data.jdbc.JDBCCategoryDataset;
 
-public class MainView extends javax.swing.JFrame {
+public class MainView extends javax.swing.JFrame implements ChartMouseListener {
 
     private final Connection con;
     private final File[] files;
     private long time;
+    private boolean enable = true;
     private int count = 0;
+    private Timer t;
 
     public MainView(Connection con, File[] files) {
         this.con = con;
         this.files = files;
         initComponents();
-
+        barChart1.addListener(this);
     }
 
     public void execute(long time) {
         this.time = time;
-        Timer t = new Timer("tarefa");
+        t = new Timer("tarefa");
         t.schedule(new TimerTask() {
             @Override
             public void run() {
                 if (count == files.length) {
                     count = 0;
                 }
-                try {
-                    System.out.println("Contagem: " + count);
-                    FileToString f = new FileToString(files[count]);
-                    System.out.println("Query: " + f.fileToString());
-                    JDBCCategoryDataset data = new JDBCCategoryDataset(con, f.fileToString());
-                    String name = files[count].getName();
-                    name = name.replaceAll(".sql", "");
-                    barChart1.setChartTitle(name);
-                    barChart1.setData(data);
+                if (enable) {
+                    try {
+                        System.out.println("Contagem: " + count);
+                        FileToString f = new FileToString(files[count]);
+                        System.out.println("Query: " + f.fileToString());
+                        JDBCCategoryDataset data = new JDBCCategoryDataset(con, f.fileToString());
+                        String name = files[count].getName();
+                        name = name.replaceAll(".sql", "");
+                        barChart1.setChartTitle(name);
+                        barChart1.setData(data);
 
-                    count++;
-                } catch (SQLException ex) {
-                    System.out.println(ex);
+                        count++;
+                    } catch (SQLException ex) {
+                        System.out.println(ex);
+                    }
                 }
             }
-        }, 0, time);
-
+        }, 0, this.time);
     }
 
     @SuppressWarnings("unchecked")
@@ -72,24 +77,28 @@ public class MainView extends javax.swing.JFrame {
         barChart1.setSeriesVisible(true);
         barChart1.setShowTitle(true);
         barChart1.setTitleColor(java.awt.Color.white);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(barChart1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(barChart1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
-        );
+        getContentPane().add(barChart1, java.awt.BorderLayout.CENTER);
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+    private void setChangeState() {
+        enable = !enable;
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.github.graficos.components.BarChart barChart1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void chartMouseClicked(ChartMouseEvent event) {
+        setChangeState();
+    }
+
+    @Override
+    public void chartMouseMoved(ChartMouseEvent event) {
+
+    }
+
 }
