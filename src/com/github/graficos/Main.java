@@ -1,6 +1,8 @@
 package com.github.graficos;
 
 import com.github.graficos.views.MainView1;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Connection;
@@ -22,7 +24,9 @@ public class Main {
             File f = new File("C:/sql");
             File[] files = f.listFiles();
             MainView1 view = new MainView1(con, files);
+            Image image = Toolkit.getDefaultToolkit().getImage("img/pig48.png");
 
+            view.setIconImage(image);
             view.setVisible(true);
 
         } catch (Exception e) {

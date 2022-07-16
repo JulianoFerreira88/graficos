@@ -27,6 +27,7 @@ public class ConsumoRacoesCreche extends JPanel {
 
     public ConsumoRacoesCreche(Connection con) {
         super(new CardLayout());
+
         this.con = con;
         try {
             initComponents();
@@ -54,7 +55,7 @@ public class ConsumoRacoesCreche extends JPanel {
         jPanel2.setBackground(java.awt.Color.darkGray);
         jPanel2.setPreferredSize(new java.awt.Dimension(523, 250));
 
-        listRacoes.setBackground(java.awt.Color.darkGray);
+        listRacoes.setBackground(java.awt.Color.DARK_GRAY);
         listRacoes.setForeground(new java.awt.Color(0, 255, 204));
         listRacoes.setModel(getRacoesModel());
         listRacoes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -113,7 +114,7 @@ public class ConsumoRacoesCreche extends JPanel {
 
     }
 
-    private void listRacoesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listRacoesValueChanged
+    private void listRacoesValueChanged(javax.swing.event.ListSelectionEvent evt) {
         onRacoesSelected(listRacoes.getSelectedValue());
     }
 

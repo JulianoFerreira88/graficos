@@ -16,7 +16,7 @@ public class ChartPanel extends javax.swing.JPanel {
     private Connection con;
 
     public ChartPanel(File file, Connection con) {
-        super(new CardLayout());
+        this.setLayout(new CardLayout());
         this.f = file;
         this.con = con;
 
