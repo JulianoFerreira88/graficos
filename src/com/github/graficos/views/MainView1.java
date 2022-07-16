@@ -31,7 +31,7 @@ public class MainView1 extends javax.swing.JFrame {
         root = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(750, 550));
+        setPreferredSize(new java.awt.Dimension(1000, 550));
         setSize(getSize());
         getContentPane().setLayout(new java.awt.CardLayout());
 

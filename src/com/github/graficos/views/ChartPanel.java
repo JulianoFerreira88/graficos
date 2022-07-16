@@ -19,6 +19,7 @@ public class ChartPanel extends javax.swing.JPanel {
         super(new CardLayout());
         this.f = file;
         this.con = con;
+
         initComponents();
         addComponentListener(new ComponentAdapter() {
             @Override
@@ -34,24 +35,29 @@ public class ChartPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setAlignmentX(0.0F);
+        setAlignmentY(0.0F);
         setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         setLayout(new java.awt.CardLayout());
     }// </editor-fold>//GEN-END:initComponents
     private void onShow() {
-        try {
-            BarChart chart = new BarChart();
-            JDBCCategoryDataset data = new JDBCCategoryDataset(con, new FileToString(f).fileToString());
-            chart.setData(data);
-            chart.setBgChartColor(Color.darkGray);
-            chart.setBgLabelColor(Color.white);
-            chart.setBgSeriesColor(new Color(102, 102, 255));
-            chart.setTitle(f.getName().replace(".sql", ""));
-           
-            this.add(chart);
-            this.updateUI();
-        } catch (Exception e) {
-            System.err.println(e);
-        }
+
+        new Thread(() -> {
+            try {
+                BarChart chart = new BarChart();
+                JDBCCategoryDataset data = new JDBCCategoryDataset(con, new FileToString(f).fileToString());
+                chart.setData(data);
+                chart.setBgChartColor(Color.darkGray);
+                chart.setBgLabelColor(Color.white);
+                chart.setBgSeriesColor(new Color(102, 102, 255));
+                chart.setTitle(f.getName().replace(".sql", ""));
+
+                this.add(chart);
+                this.updateUI();
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+        }).start();
 
     }
 

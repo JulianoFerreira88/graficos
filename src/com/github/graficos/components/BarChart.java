@@ -200,7 +200,7 @@ public class BarChart extends javax.swing.JPanel implements DatasetChangeListene
     private void init() {
         data = new DefaultCategoryDataset();
 
-        chart = ChartFactory.createBarChart("",
+        chart = ChartFactory.createAreaChart("",
                 "",
                 "",
                 data,
