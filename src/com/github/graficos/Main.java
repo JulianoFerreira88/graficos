@@ -22,9 +22,8 @@ public class Main {
             File f = new File("C:/sql");
             File[] files = f.listFiles();
             MainView1 view = new MainView1(con, files);
-            
+
             view.setVisible(true);
-           
 
         } catch (Exception e) {
             System.err.println(e);
