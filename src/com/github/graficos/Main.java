@@ -1,6 +1,6 @@
 package com.github.graficos;
 
-import com.github.graficos.views.MainView1;
+import com.github.graficos.views.MainView2;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
@@ -17,13 +17,14 @@ public class Main {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             Properties p = new Properties();
             p.load(new FileInputStream(new File("C:/db.properties")));
+
             Connection con = DriverManager.getConnection(
                     p.getProperty("url"),
                     p.getProperty("user"),
                     p.getProperty("pass"));
             File f = new File("C:/sql");
             File[] files = f.listFiles();
-            MainView1 view = new MainView1(con, files);
+            MainView2 view = new MainView2(con, files);
             Image image = Toolkit.getDefaultToolkit().getImage("img/pig48.png");
 
             view.setIconImage(image);

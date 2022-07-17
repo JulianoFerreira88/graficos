@@ -38,26 +38,24 @@ public class ChartPanel extends javax.swing.JPanel {
         setAlignmentX(0.0F);
         setAlignmentY(0.0F);
         setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        setPreferredSize(new java.awt.Dimension(1000, 600));
         setLayout(new java.awt.CardLayout());
     }// </editor-fold>//GEN-END:initComponents
-    private void onShow() {
+    public void onShow() {
+        try {
+            BarChart chart = new BarChart();
+            JDBCCategoryDataset data = new JDBCCategoryDataset(con, new FileToString(f).fileToString());
+            chart.setData(data);
+            chart.setBgChartColor(Color.darkGray);
+            chart.setBgLabelColor(Color.white);
+            chart.setBgSeriesColor(new Color(102, 102, 255));
+            chart.setTitle(f.getName().replace(".sql", ""));
 
-        new Thread(() -> {
-            try {
-                BarChart chart = new BarChart();
-                JDBCCategoryDataset data = new JDBCCategoryDataset(con, new FileToString(f).fileToString());
-                chart.setData(data);
-                chart.setBgChartColor(Color.darkGray);
-                chart.setBgLabelColor(Color.white);
-                chart.setBgSeriesColor(new Color(102, 102, 255));
-                chart.setTitle(f.getName().replace(".sql", ""));
-
-                this.add(chart);
-                this.updateUI();
-            } catch (Exception e) {
-                System.err.println(e);
-            }
-        }).start();
+            this.add(chart);
+            this.updateUI();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
 
     }
 

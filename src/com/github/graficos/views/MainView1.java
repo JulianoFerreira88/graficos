@@ -1,4 +1,4 @@
-package com.github.graficos.views;
+    package com.github.graficos.views;
 
 import java.io.File;
 import java.sql.Connection;
@@ -13,7 +13,7 @@ public class MainView1 extends javax.swing.JFrame {
     public MainView1(Connection con, File[] files) {
         this.con = con;
         this.files = files;
-
+        
         initComponents();
         for (int i = 0; i < files.length; i++) {
             File file = files[i];
