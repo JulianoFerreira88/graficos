@@ -4,6 +4,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
@@ -11,11 +13,12 @@ public class MainView2 extends javax.swing.JFrame {
 
     private final Connection con;
     private final File[] files;
+    private final List<JMenuItem> itens;
 
     public MainView2(Connection con, File[] files) {
         this.con = con;
         this.files = files;
-
+        this.itens = new ArrayList<>();
         initComponents();
 
         postInit();
@@ -49,6 +52,7 @@ public class MainView2 extends javax.swing.JFrame {
                     }
                     );
                     jmenu.add(menuIem);
+                    itens.add(menuIem);
 
                 }
                 jmenu.updateUI();
