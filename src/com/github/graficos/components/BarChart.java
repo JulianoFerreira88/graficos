@@ -216,6 +216,7 @@ public class BarChart extends javax.swing.JPanel implements DatasetChangeListene
         setSeriesVisible(true);
         setTitleColor(Color.white);
         setDomainAxisVisible(true);
+        setChartSeriesVisibleOnLegend(false);
         this.jPanel1.add(panel);
         this.chart.getCategoryPlot().getDomainAxis().setCategoryLabelPositions(CategoryLabelPositions.DOWN_45);
 

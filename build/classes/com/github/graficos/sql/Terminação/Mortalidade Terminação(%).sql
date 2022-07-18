@@ -9,4 +9,4 @@ extract(year from m.DTMOVIMENTACAO) as ANO,
     and extract(year from ma.DTMOVIMENTACAO) = extract(year from m.DTMOVIMENTACAO)
 )  *100) 
 / 
-(sum(abs(m.QTANIMAIS))) as "MORTALIDADE" from ESANMOVANIMAIS m where m.CDFASE = 6  and m.FLTIPO = 'F' group by ANO  
+(sum(abs(m.QTANIMAIS)))  from ESANMOVANIMAIS m where m.CDFASE = 6  and m.FLTIPO = 'F' group by ANO  

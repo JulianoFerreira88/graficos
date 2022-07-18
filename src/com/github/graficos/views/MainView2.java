@@ -1,5 +1,8 @@
 package com.github.graficos.views;
 
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -31,16 +34,32 @@ public class MainView2 extends javax.swing.JFrame {
             File file = files[i];
             if (file.isDirectory()) {
                 JMenu jmenu = new JMenu(file.getName());
+                jmenu.setMargin(new Insets(10, 10, 10, 10));
+                jmenu.setBorderPainted(true);
+                jmenu.updateUI();
+
                 menu.add(jmenu);
                 File[] listFiles = file.listFiles();
                 for (int j = 0; j < listFiles.length; j++) {
                     File f = listFiles[j];
 
                     JMenuItem menuIem = new JMenuItem(f.getName().replace(".sql", ""));
+
+                    menuIem.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent ae) {
+                            ChartPanel p = new ChartPanel(f, con);
+                            p.setVisible(true);
+                            p.onShow();
+                            root.removeAll();
+                            root.add(p);
+                            p.updateUI();
+                        }
+                    });
                     menuIem.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseReleased(MouseEvent me) {
-                            JMenuItem item = (JMenuItem) me.getComponent();
+
                             ChartPanel p = new ChartPanel(f, con);
                             p.setVisible(true);
                             p.onShow();
@@ -73,6 +92,7 @@ public class MainView2 extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        setUndecorated(true);
         setPreferredSize(new java.awt.Dimension(1000, 650));
         getContentPane().setLayout(new java.awt.CardLayout());
 
@@ -86,8 +106,8 @@ public class MainView2 extends javax.swing.JFrame {
 
         getContentPane().add(root, "card2");
 
-        menu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 3, 0, new java.awt.Color(153, 153, 255)));
-        menu.setPreferredSize(new java.awt.Dimension(0, 35));
+        menu.setBorder(javax.swing.BorderFactory.createMatteBorder(5, 0, 5, 0, new java.awt.Color(153, 153, 255)));
+        menu.setPreferredSize(new java.awt.Dimension(0, 50));
         setJMenuBar(menu);
 
         pack();
