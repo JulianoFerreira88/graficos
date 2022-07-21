@@ -1,113 +1,168 @@
 package com.github.graficos.views;
 
-import com.github.graficos.utils.FileToString;
-import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Timer;
-import java.util.TimerTask;
-import javax.swing.JPanel;
-import org.jfree.chart.ChartMouseEvent;
-import org.jfree.chart.ChartMouseListener;
-import org.jfree.data.jdbc.JDBCCategoryDataset;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
-public class MainView extends javax.swing.JFrame implements ChartMouseListener {
+public class MainView extends javax.swing.JFrame {
 
     private final Connection con;
     private final File[] files;
-    private long time;
-    private boolean enable = true;
-    private int count = 0;
-    private Timer t;
+    private final List<JMenuItem> itens;
 
     public MainView(Connection con, File[] files) {
         this.con = con;
         this.files = files;
+        this.itens = new ArrayList<>();
         initComponents();
-        barChart1.addListener(this);
+        postInit();
+
     }
 
-    public void execute(long time) {
-        this.time = time;
-        t = new Timer("tarefa");
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (count == files.length) {
-                    count = 0;
-                }
-                if (enable) {
-                    try {
-                        System.out.println("Contagem: " + count);
-                        FileToString f = new FileToString(files[count]);
-                        System.out.println("Query: " + f.fileToString());
-                        JDBCCategoryDataset data = new JDBCCategoryDataset(con, f.fileToString());
-                        String name = files[count].getName();
-                        name = name.replaceAll(".sql", "");
-                        barChart1.setChartTitle(name);
-                        barChart1.setData(data);
+    private void postInit() {
 
-                        count++;
-                    } catch (SQLException ex) {
-                        System.out.println(ex);
+        for (int i = 0; i < files.length; i++) {
+            File file = files[i];
+            if (file.isDirectory()) {
+                JMenu jmenu = new JMenu(file.getName());
+                jmenu.setMargin(new Insets(10, 10, 10, 10));
+                jmenu.setBorderPainted(true);
+                jmenu.updateUI();
+
+                menu.add(jmenu);
+                File[] listFiles = file.listFiles();
+                for (int j = 0; j < listFiles.length; j++) {
+                    File f = listFiles[j];
+
+                    JMenuItem menuIem = new JMenuItem(f.getName().replace(".sql", ""));
+
+                    menuIem.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent ae) {
+                            ChartPanel p = new ChartPanel(f, con);
+                            p.setVisible(true);
+                            p.onShow();
+                            root.removeAll();
+                            root.add(p);
+                            p.updateUI();
+                        }
+                    });
+                    menuIem.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseReleased(MouseEvent me) {
+
+                            ChartPanel p = new ChartPanel(f, con);
+                            p.setVisible(true);
+                            p.onShow();
+                            root.removeAll();
+                            root.add(p);
+                            p.updateUI();
+                        }
+
                     }
+                    );
+                    jmenu.add(menuIem);
+                    itens.add(menuIem);
+
                 }
+                jmenu.updateUI();
+                menu.updateUI();
+
             }
-        }, 0, this.time);
+        }
+
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        try {
-            barChart1 = new com.github.graficos.components.BarChart();
-        } catch (java.sql.SQLException e1) {
-            e1.printStackTrace();
-        }
+        root = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        menu = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Gráficos");
-        setPreferredSize(new java.awt.Dimension(750, 575));
+        setBackground(new java.awt.Color(255, 255, 255));
+        setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(1000, 650));
+        getContentPane().setLayout(new java.awt.CardLayout());
 
-        barChart1.setBgLabelColor(java.awt.Color.white);
-        barChart1.setBgSeriesColor(new java.awt.Color(102, 102, 255));
-        barChart1.setDomainAxisColor(java.awt.Color.white);
-        barChart1.setDomainAxisVisible(true);
-        barChart1.setSeriesPaint(java.awt.Color.white);
-        barChart1.setSeriesVisible(true);
-        barChart1.setShowTitle(true);
-        barChart1.setTitleColor(java.awt.Color.white);
-        getContentPane().add(barChart1, java.awt.BorderLayout.CENTER);
+        root.setBackground(new java.awt.Color(255, 255, 255));
+        root.setLayout(new java.awt.CardLayout());
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Selecione Um Item de Menu");
+        root.add(jLabel1, "card2");
+
+        getContentPane().add(root, "card2");
+
+        menu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(153, 153, 255)));
+        menu.setPreferredSize(new java.awt.Dimension(0, 50));
+
+        jMenu1.setText("Menu");
+
+        jMenuItem1.setText("Escolher cor");
+        jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItem1MouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuItem1MouseReleased(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        menu.add(jMenu1);
+
+        setJMenuBar(menu);
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    private void setChangeState() {
-        enable = !enable;
-    }
+
+    private void jMenuItem1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MouseClicked
+
+
+    }//GEN-LAST:event_jMenuItem1MouseClicked
+
+    private void jMenuItem1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MouseReleased
+        JDialog d = new JDialog();
+        d.setModal(true);
+        ColorSelector cs = new ColorSelector(new ColorSelector.OnColor() {
+            @Override
+            public void onColorSelected(Color c) {
+
+                System.out.println(c);
+                d.dispose();
+            }
+        });
+        cs.setSize(250, 200);
+        d.add(cs);
+        d.setSize(500, 350);
+
+        d.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1MouseReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.github.graficos.components.BarChart barChart1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuBar menu;
+    private javax.swing.JPanel root;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void chartMouseClicked(ChartMouseEvent event) {
-        setChangeState();
-    }
-
-    @Override
-    public void chartMouseMoved(ChartMouseEvent event) {
-
-    }
-
-    public JPanel[] getPanels() {
-        JPanel[] panels = new JPanel[files.length];
-        for (int i = 0; i < panels.length; i++) {
-            JPanel panel = new JPanel(new CardLayout());
-        }
-        return panels;
-    }
 }
